@@ -10,7 +10,15 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body  style="text-align: center;">
+  <h1>Welcome to Scheduled Remider Application</h1>
+  <h3>A small, simple Ruby on Rails application that sends monthly scheduled reminders to users</h3>
+  <div style="border: black solid;">
     <%= yield %>
+    <br/><br/>
+    <%if current_user%>
+       <%= button_to "Logout", '/logout', method: :get%>
+    <%end%>  
+    </div>
   </body>
 </html>
