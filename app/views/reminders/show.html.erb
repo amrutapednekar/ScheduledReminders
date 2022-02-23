@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @reminder.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @reminder.body %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @reminder.time %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @reminder.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @reminder.end_date %>
+</p>
+
+<p>
+  <strong>Day of month:</strong>
+  <%= @reminder.day_of_month %>
+</p>
+
+<p>
+  <strong>Day before eom:</strong>
+  <%= @reminder.day_before_eom %>
+</p>
+
+<p>
+  <strong>Last day month:</strong>
+  <%= @reminder.last_day_month %>
+</p>
+
+<%= link_to 'Edit', edit_reminder_path(@reminder) %> |
+<%= link_to 'Back', reminders_path %>

@@ -9,4 +9,5 @@ class User < ApplicationRecord
 
     # Password validations
     validates :password_digest, presence: true 
+    has_many :reminders
 end

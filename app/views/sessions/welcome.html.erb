@@ -2,6 +2,7 @@
 <h4>User Authentication</h4>
 <% if logged_in? %>
          <h2>You are Logged In as , <%= current_user.email %></h2>
+         <%= button_to "View Reminders", '/reminders', method: :get%><br/>
     <% else %>
         <span>If you have already created an account with your email address, please login.<span/>
         <%= button_to "Login", '/login', method: :get%><br/>

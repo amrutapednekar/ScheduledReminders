@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reminders
   root :to => 'sessions#welcome'
   get 'sessions/new'
   get 'login', to: 'sessions#new'

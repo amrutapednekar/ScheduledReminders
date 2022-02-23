@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+ table, th, td {
+    border: 1px solid;
+  }
+  .field_with_errors
+  {
+    display: inline-flex;
+  }
+  #error_explanation
+  {
+  text-align: left;
+  width: auto;
+  }
+

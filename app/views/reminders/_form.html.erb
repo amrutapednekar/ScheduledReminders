@@ -1,0 +1,62 @@
+<%= form_with(model: reminder) do |form| %>
+  <% if reminder.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reminder.errors.count, "error") %> prohibited this reminder from being saved:</h2>
+
+      <ul>
+        <% reminder.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :body %>
+    <%= form.text_area :body %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time %>
+    <%= form.time_field :time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date, start_date: Date.today %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+  </div>
+
+  <div class="relativeDays">
+  <span><strong>Relative Days</strong></span><br/>
+  <span>You can enter only one from below options. </span><br/><br/>
+
+  <div class="relativeDaysOptions">
+  <div class="field">
+    <span>1. Every</span><%= form.number_field :day_of_month, min: 1,max: 25%><span> th day of a month</span>
+  </div>
+
+  <div class="field">
+    <span>2. </span><%= form.number_field :day_before_eom , min: 1,max: 5%><span> days before End of the month</span>
+  </div>
+
+  <div class="field">
+  <span>3. </span>
+    <%= form.check_box :last_day_month %>
+    <span>Last day of the month </span>
+  </div>
+  </div><br/>
+  </div><br/>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

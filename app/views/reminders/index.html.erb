@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reminders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Time</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Day of month</th>
+      <th>Day before eom</th>
+      <th>Last day month</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reminders.each do |reminder| %>
+      <tr>
+        <td><%= reminder.title %></td>
+        <td><%= reminder.body %></td>
+        <td><%= reminder.time %></td>
+        <td><%= reminder.start_date %></td>
+        <td><%= reminder.end_date %></td>
+        <td><%= reminder.day_of_month %></td>
+        <td><%= reminder.day_before_eom %></td>
+        <td><%= reminder.last_day_month %></td>
+        <td><%= link_to 'Show', reminder %></td>
+        <td><%= link_to 'Edit', edit_reminder_path(reminder) %></td>
+        <td><%= link_to 'Destroy', reminder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reminder', new_reminder_path %>
