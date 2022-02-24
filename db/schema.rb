@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_23_130618) do
+ActiveRecord::Schema.define(version: 2022_02_24_130550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "notifications", force: :cascade do |t|
+    t.date "date"
+    t.time "time"
+    t.bigint "reminder_id", null: false
+    t.boolean "is_sent", default: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reminder_id"], name: "index_notifications_on_reminder_id"
+  end
 
   create_table "reminders", force: :cascade do |t|
     t.string "title"
@@ -37,5 +48,6 @@ ActiveRecord::Schema.define(version: 2022_02_23_130618) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "notifications", "reminders"
   add_foreign_key "reminders", "users"
 end
