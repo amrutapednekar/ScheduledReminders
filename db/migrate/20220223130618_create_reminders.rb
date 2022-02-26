@@ -4,7 +4,7 @@ class CreateReminders < ActiveRecord::Migration[6.1]
       t.string :title
       t.text :body
       t.references :user, null: false, foreign_key: true
-      t.time :time
+      t.datetime :time
       t.date :start_date
       t.date :end_date
       t.integer :day_of_month

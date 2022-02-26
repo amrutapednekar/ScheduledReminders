@@ -37,7 +37,7 @@ class Reminder < ApplicationRecord
     month_count = 0
     until month_count > reminder_months
      reminderdate = find_date_for_reminder_notification(month_count)
-      self.notifications.create({ :time => self.time, :date => reminderdate}) unless reminderdate.blank?
+    self.notifications.create({ :time => self.time, :date => reminderdate}) unless reminderdate.blank?
      month_count += 1
     end
   end
@@ -54,12 +54,14 @@ class Reminder < ApplicationRecord
     reminderdate = (self.start_date + month_count.month).end_of_month unless self.last_day_month.blank?
     reminderdate = (self.start_date + month_count.month).beginning_of_month + ( self.day_of_month- 1) unless self.day_of_month.blank? 
     reminderdate = (self.start_date + month_count.month).end_of_month - self.day_before_eom unless self.day_before_eom.blank?
-     date_out_of_limit = (reminderdate.before? Date.today) ||  (reminderdate.after? self.end_date)
+    date_out_of_limit = (reminderdate.before? Date.today) ||  (reminderdate.after? self.end_date)
     return (reminderdate && date_out_of_limit) ? nil : reminderdate
   end
 
   # Delete all old notifications on reminder edit
   def delete_old_notifications_on_edit
+    if self.notifications
     self.notifications.destroy_all if self.created_at != self.updated_at
+    end
   end  
 end

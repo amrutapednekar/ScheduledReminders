@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2022_02_24_130550) do
 
   create_table "notifications", force: :cascade do |t|
     t.date "date"
-    t.time "time"
+    t.datetime "time"
     t.bigint "reminder_id", null: false
     t.boolean "is_sent", default: false
     t.boolean "is_active", default: true
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2022_02_24_130550) do
     t.string "title"
     t.text "body"
     t.bigint "user_id", null: false
-    t.time "time"
+    t.datetime "time"
     t.date "start_date"
     t.date "end_date"
     t.integer "day_of_month"
