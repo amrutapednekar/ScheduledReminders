@@ -1,8 +1,6 @@
 class Notification < ApplicationRecord
   belongs_to :reminder
- # scope :is_pending, -> { where(is_active: true, is_sent: false) }
- # scope :is_set_to_send_now, -> { where(date: Today.date, time: Time.now .. 5.minutes.from_now(Time.now)) }
-  
+   
  # Check if notificationn is active and not sent yet
   def is_pending
     self.is_active && !self.is_sent
