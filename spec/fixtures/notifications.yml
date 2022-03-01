@@ -1,0 +1,13 @@
+one:
+  date: 2022-02-24
+  time: 2022-02-24 14:05:50
+  reminder: one
+  is_sent: false
+  is_active: true
+
+two:
+  date: 2022-02-24
+  time: 2022-02-24 14:05:50
+  reminder: two
+  is_sent: true
+  is_active: true

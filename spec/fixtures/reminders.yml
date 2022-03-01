@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+first_reminder:
+  title: MyString
+  body: MyText
+  user: one
+  time: 2022-02-23 14:06:18
+  start_date: 2022-02-23
+  end_date: 2022-02-23
+  day_of_month: 1
+  last_day_month: false
+
+two:
+  title: MyString
+  body: MyText
+  user: two
+  time: 2022-02-23 14:06:18
+  start_date: 2022-02-23
+  end_date: 2022-02-23
+  day_before_eom: 1
+  last_day_month: false
