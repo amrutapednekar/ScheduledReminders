@@ -9,11 +9,11 @@ class Reminder < ApplicationRecord
   validates :day_before_eom, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5}, :allow_nil => true
   validate :start_and_end_date_validation
   validate :only_one_relative_day
-  has_many :notifications
+  has_many :notifications, :dependent => :destroy
   after_save :create_notifications_for_reminder
   
   private
-  # Validates if end date is greater than start date. 
+  # Validates if the end date is greater than the start date. 
   # If not, displays an error message. 
   def start_and_end_date_validation()
     errors.add(:end_date, "End date can not be greater than start date") if (!end_date.blank?) && (end_date.before? start_date)
@@ -31,6 +31,10 @@ class Reminder < ApplicationRecord
   end
 
   # Creates notifications table entries for reminder
+  # 1. Delete old notification for reminder. This is called only on Reminder edit
+  # 2. Calculates number of months for reminder
+  # 3. For every month, it calculates a reminder date. 
+  # 4. Creates entry in notification table with date = calculated date 
   def create_notifications_for_reminder
     delete_old_notifications_on_edit
     reminder_months = find_number_of_months_between(self.start_date, self.end_date)

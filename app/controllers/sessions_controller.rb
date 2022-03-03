@@ -1,22 +1,28 @@
 class SessionsController < ApplicationController
   skip_before_action :authorized, only: [:new, :create, :welcome,:logout]
   def new
-    @user = User.new
+     @user = User.new
   end
 
- # Creates a new user - Signup
+ # Authenticates user - Login
  # If usewr created, redirects to wecome pahe.
  # If uswer is not created, redirects again to login page. 
  # Displays errors in creating user 
   def create
     @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
-       session[:user_id] = @user.id
-       redirect_to '/welcome'
-    else
-      render :new
-       #redirect_to '/login'
+
+    respond_to do |format|
+      if @user && @user.authenticate(params[:password])
+        session[:user_id] = @user.id
+        format.html { redirect_to '/welcome'}
+        format.json { render :welcome}
+      else
+        @error_message = "Invalid authentication.Please enter correct email address and password"
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
+
   end
 
   # Login page

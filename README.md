@@ -54,5 +54,5 @@ You can login with already created users.
  Email address : user1@gmail.com
  password : user1
 
- Email address : user1@gmail.com
- password : user1
+ Email address : user2@gmail.com
+ password : user2
