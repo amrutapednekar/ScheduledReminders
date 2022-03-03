@@ -4,7 +4,8 @@ namespace :send_reminder_email do
     Notification.find_each  do |notification|
         if notification.is_pending && notification.is_set_to_send_now
         NotificationMailer.with(notification: notification).notification_for_remider_email.deliver_now
-       # notification.delete
+        notification.is_sent = true
+        notification.save
         p "email sent"
         end
     end
