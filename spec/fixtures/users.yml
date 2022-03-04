@@ -1,5 +1,5 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+# password = amruta
 one:
   email: user1@gmail.com
   password_digest: $2a$12$kMqWqnpqza/NeTB6sh4hEuKGi.DQPpMqrINlkhm9ktHXr9ZmqQAeO

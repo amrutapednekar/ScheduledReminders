@@ -10,5 +10,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
+  # To access session in rspec
+    if Rails.env.test?
+      namespace :test do
+        resource :session, only: %i[create]
+      end
+    end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
