@@ -185,10 +185,86 @@ describe "checks only one relative day is selected" do
     get reminder_url(reminder)
     expect(response).to render_template(:show)
     put "/reminders/#{reminder.id}", :params =>  { :reminder => {:start_date=>"2022-02-23", 
-    :end_date =>"2022-03-23", :last_day_month => true} }
+    :end_date =>"2022-03-23",:day_of_month => 1, :last_day_month => true} }
     expect(response).to render_template(:edit)
     expect(response).to have_http_status(:unprocessable_entity)
     expect(response.body).to include("Select one relative day")
   end
+end
+
+# Rspec for Reminder -> Notifications
+describe "After save of Reminder" do
+  it "creates notifications when dates are valid" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2023-02-23", :end_date =>"2023-03-23",
+       :last_day_month => true)   
+    expect(reminder).to be_valid
+    expect { reminder.save }.to change { reminder.notifications.count }.by(1)
+    expect(reminder.notifications).to be_present
+  end
+
+  it "creates correct number of notifications" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2023-02-23", :end_date =>"2023-04-23",
+       :day_of_month => 1)   
+    expect(reminder).to be_valid
+    expect { reminder.save }.to change { reminder.notifications.count }.by(2)
+    expect(reminder.notifications).to be_present
+  end
+
+  it "does not creates notification if end date is less than today" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2021-02-23", :end_date =>"2021-03-23",
+       :last_day_month => true)   
+    expect { reminder.save }.not_to change{ reminder.notifications.count }
+    expect(reminder.notifications).not_to be_present
+  end
+
+  it "does not creates notification if notification date is less than start date" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2022-02-26", :end_date =>"2022-03-23",
+       :day_of_month => 25)   
+    expect { reminder.save }.not_to change{ reminder.notifications.count }
+    expect(reminder.notifications).not_to be_present
+  end
+
+  it "does not creates notification if notification date is greater than end date" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2022-03-01", :end_date =>"2022-03-23",
+       :day_of_month => 25)   
+    expect { reminder.save }.not_to change{ reminder.notifications.count }
+    expect(reminder.notifications).not_to be_present
+  end
+
+  it "deletes old notificatios on reminder #edit and create new notifications" do
+    #Create reminder
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+      :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2023-02-23", :end_date =>"2023-03-23",
+      :last_day_month => true)   
+    expect(reminder).to be_valid
+    expect { reminder.save }.to change { reminder.notifications.count }.by(1)
+    expect(reminder.notifications).to be_present
+    old_notifications = reminder.notifications
+
+    # Edit reminder
+    get reminder_url(reminder)
+    expect(response).to render_template(:show)
+    put "/reminders/#{reminder.id}", :params =>  { :reminder => { :end_date => "2023-06-23"} }
+    expect(response).to redirect_to(assigns(:reminder))
+    follow_redirect!
+    expect(response).to render_template(:show)
+    expect(response.body).to include("Reminder was successfully updated.")
+    new_notifications = reminder.notifications
+
+    #deletes old notificatios on reminder #edit and create new notifications 
+    expect(reminder.notifications).to be_present
+    expect(new_notifications).to_not include(old_notifications)
+  end 
 end
 end

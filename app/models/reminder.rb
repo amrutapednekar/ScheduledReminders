@@ -58,7 +58,7 @@ class Reminder < ApplicationRecord
     reminderdate = (self.start_date + month_count.month).end_of_month unless self.last_day_month.blank?
     reminderdate = (self.start_date + month_count.month).beginning_of_month + ( self.day_of_month- 1) unless self.day_of_month.blank? 
     reminderdate = (self.start_date + month_count.month).end_of_month - self.day_before_eom unless self.day_before_eom.blank?
-    date_out_of_limit = (reminderdate.before? Date.today) ||  (reminderdate.after? self.end_date)
+    date_out_of_limit = (reminderdate.before? self.start_date) ||(reminderdate.before? Date.today) ||  (reminderdate.after? self.end_date)
     return (reminderdate && date_out_of_limit) ? nil : reminderdate
   end
 

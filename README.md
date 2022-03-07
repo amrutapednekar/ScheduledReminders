@@ -56,3 +56,29 @@ You can login with already created users.
 
  Email address : user2@gmail.com
  password : user2
+
+ ##### 5. Create reminder 
+ Corrosponding notifications will be automatically created in database.
+
+
+
+ ##### 6. Check email notification in dev mode 
+ 
+```ruby
+rake send_reminder_email:my_task
+```
+
+ ##### 7. To set crontab 
+ 
+```ruby
+bundle exec wheneverize .
+bundle exec whenever
+whenever --update-crontab
+```
+The whenever gem only runs on *nix systems (Linux, Mac OSX, BSD, ...) and not on windows.
+For Windows, schedule it through Task Scheduler.
+
+##### 8. Run Rspec 
+ 
+```ruby
+bundle exec rspec spec
