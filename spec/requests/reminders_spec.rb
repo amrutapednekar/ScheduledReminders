@@ -267,4 +267,28 @@ describe "After save of Reminder" do
     expect(new_notifications).to_not include(old_notifications)
   end 
 end
+
+# Rspec dependent destroy Reminder -> Notifications
+describe "Delete Reminder" do
+  it "removes a record from the database" do
+    reminder = Reminder.create(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2022-03-01", :end_date =>"2022-03-23",
+       :day_of_month => 25) 
+    expect(reminder).to be_valid
+    expect { reminder.destroy }.to change { Reminder.count }.by(-1)
+  end
+
+  it "removes a dependent notifications too" do
+    get "/reminders/new"
+    reminder = Reminder.new(:title => "My reminder",:body=> 'Testing reminder',
+       :user_id => @test_user.id, :time =>"2022-02-23 14:06:18",:start_date=>"2023-02-23", :end_date =>"2023-04-23",
+       :day_of_month => 1)   
+    expect(reminder).to be_valid
+    expect {reminder.save }.to change { reminder.notifications.count }.by(2)
+    expect(reminder.notifications).to be_present
+    expect { reminder.destroy }.to change { Notification.count }.by(-2)
+  end
+
+end
+
 end
